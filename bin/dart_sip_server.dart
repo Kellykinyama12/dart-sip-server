@@ -90,7 +90,6 @@ Future<WebSocket> connect() async {
 //Function(dynamic resp)
 void main() async{
   // ignore: unused_local_variable
-  SipServer sipServer = SipServer("0.0.0.0", 5080);
   // wsSipServer wsServer =
   //     wsSipServer("192.168.0.91", 8088, "192.168.0.91", 5080);
    print("Connecting to Ion SFU");
@@ -98,4 +97,7 @@ void main() async{
   socket.listen((event) {
     print(event);
   });
+
+  
+  SipServer sipServer = SipServer("0.0.0.0", 5080,socket);
 }

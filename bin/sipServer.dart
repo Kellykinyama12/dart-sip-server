@@ -9,11 +9,12 @@ class SipServer {
 
   // }
 
-  SipServer(String ip, int port) {
+  SipServer(String ip, int port, WebSocket ion_sfu):this.ion_sfu=ion_sfu {
     //RawDatagramSocket _socket;
     ReqHandler? handler;
     SipMessageFactory messagesFactory = SipMessageFactory();
 
+   
     RawDatagramSocket.bind(InternetAddress(ip), port)
         .then((RawDatagramSocket socket) {
       print('UDP Echo ready to receive');
@@ -82,4 +83,7 @@ class SipServer {
       });
     });
   }
+ WebSocket ion_sfu;
+
+
 }

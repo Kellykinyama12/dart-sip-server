@@ -31,10 +31,11 @@ class ReqHandler {
   void Function(sockaddr_in, dynamic)? _onHandled;
 
   String _serverIp;
-  ReqHandler(String serverIp, int serverPort, RawDatagramSocket socket)
+  ReqHandler(String serverIp, int serverPort, RawDatagramSocket socket, WebSocket ion_sfu)
       : _serverIp = serverIp,
         _serverPort = serverPort,
-        this.socket = socket {
+        this.socket = socket,
+        this.ion_sfu=ion_sfu {
     // SipMessageTypes.REGISTER,
     // SipMessageTypes.CANCEL,
     // SipMessageTypes.INVITE,
@@ -396,4 +397,5 @@ class ReqHandler {
 
   RawDatagramSocket socket;
   Map<String, Session>? _sessions;
+  WebSocket ion_sfu;
 }
