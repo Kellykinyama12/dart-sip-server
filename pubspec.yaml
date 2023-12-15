@@ -4,10 +4,12 @@ version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
 environment:
-  sdk: ^3.0.6
+  sdk: ^3.0.5
 
 # Add regular dependencies here.
 dependencies:
+  json_rpc_2: ^3.0.2
+  pedantic: ^1.11.1
   # path: ^1.8.0
 
 dev_dependencies:
