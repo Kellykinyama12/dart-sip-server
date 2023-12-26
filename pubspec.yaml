@@ -8,6 +8,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  # flutter_ion: ^1.0.0
   json_rpc_2: ^3.0.2
   pedantic: ^1.11.1
   # path: ^1.8.0
