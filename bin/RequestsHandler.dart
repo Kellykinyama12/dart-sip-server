@@ -12,6 +12,7 @@ import 'dart:convert';
 import 'addrPort.dart';
 import 'SipMessageTypes.dart';
 import 'SipSdpMessage.dart';
+import 'sipMessageHeaders.dart';
 
 String IDGen() {
   String out = "";
@@ -31,11 +32,10 @@ class ReqHandler {
   void Function(sockaddr_in, dynamic)? _onHandled;
 
   String _serverIp;
-  ReqHandler(String serverIp, int serverPort, RawDatagramSocket socket, WebSocket ion_sfu)
+  ReqHandler(String serverIp, int serverPort, RawDatagramSocket socket)
       : _serverIp = serverIp,
         _serverPort = serverPort,
-        this.socket = socket,
-        this.ion_sfu=ion_sfu {
+        this.socket = socket{
     // SipMessageTypes.REGISTER,
     // SipMessageTypes.CANCEL,
     // SipMessageTypes.INVITE,
@@ -208,6 +208,24 @@ class ReqHandler {
     // print(called.getNumber());
     if (called == null) {
       print("Callee is: ${data.getToNumber()} is not registered");
+      //print(data.toString());
+      String strMsg = data.toString();
+      int sdpDelimitor = strMsg.indexOf(SipMessageHeaders.HEADERS_DELIMETER +
+          SipMessageHeaders.HEADERS_DELIMETER);
+      //print("Sdp delimiter: $sdpDelimitor");
+      String sdp = strMsg.substring(sdpDelimitor+1);
+
+      var jsonRpcReq = {
+        "jsonrpc": "2.0",
+        "method": "request",
+        "params": {
+          "sid": "defaultroom",
+          "offer": {"type": "offer", "sdp": sdp}
+        }
+      };
+      // print(jsonRpcReq);
+
+      //ion_sfu.add(jsonEncode(jsonRpcReq));
       // Send "SIP/2.0 404 Not Found"
       data.setHeader(SipMessageTypes.NOT_FOUND);
       data.setContact(
@@ -397,5 +415,5 @@ class ReqHandler {
 
   RawDatagramSocket socket;
   Map<String, Session>? _sessions;
-  WebSocket ion_sfu;
+  //WebSocket ion_sfu;
 }

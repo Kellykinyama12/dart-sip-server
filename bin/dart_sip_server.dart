@@ -1,6 +1,6 @@
 import 'sipServer.dart';
 import 'dart:io';
-//import 'wsSipServer.dart';
+import 'wsSipServer.dart';
 import 'package:json_rpc_2/json_rpc_2.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -22,6 +22,7 @@ Future<WebSocket> connect() async {
   // request.headers.add('Upgrade', 'websocket');
   // request.headers.add('sec-websocket-version', '13'); // insert the correct version here
   // request.headers.add('sec-websocket-key', key);
+    // request.headers.add('sec-websocket-protocol', 'sip');
 
   // HttpClientResponse response = await request.close();
   // // todo check the status code, key etc
@@ -39,7 +40,7 @@ Future<WebSocket> connect() async {
   var uri = Uri(
     scheme: "http",
     userInfo: "",
-    host: "dev.zesco.co.zm",
+    host: "10.100.54.54",
     port: 7070,
     path: "ws",
     //Iterable<String>? pathSegments,
@@ -93,11 +94,12 @@ void main() async{
   // wsSipServer wsServer =
   //     wsSipServer("192.168.0.91", 8088, "192.168.0.91", 5080);
    print("Connecting to Ion SFU");
-  var socket = await connect();
-  socket.listen((event) {
-    print(event);
-  });
+  //var socket = connect();
+  // socket.listen((event) {
+  //   print(event);
+  // });
 
   
-  SipServer sipServer = SipServer("0.0.0.0", 5080,socket);
+  SipServer sipServer = SipServer("127.0.0.1", 5080);
+  wsSipServer wsSever = wsSipServer("127.0.0.1", 8088, "127.0.0.1", 5080);
 }

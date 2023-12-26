@@ -9,7 +9,7 @@ class SipServer {
 
   // }
 
-  SipServer(String ip, int port, WebSocket ion_sfu):this.ion_sfu=ion_sfu {
+  SipServer(String ip, int port) {
     //RawDatagramSocket _socket;
     ReqHandler? handler;
     SipMessageFactory messagesFactory = SipMessageFactory();
@@ -83,7 +83,7 @@ class SipServer {
       });
     });
   }
- WebSocket ion_sfu;
+// WebSocket ion_sfu;
 
 
 }

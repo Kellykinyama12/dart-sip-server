@@ -10,6 +10,7 @@ class wsSipServer {
       print('Listening on ws://${server.address.address}:${server.port}');
 
       await for (HttpRequest request in server) {
+        request.response.headers.set("Sec-WebSocket-Protocol", "sip");
         if (WebSocketTransformer.isUpgradeRequest(request)) {
           WebSocketTransformer.upgrade(request).then(handleWebSocket);
         } else {
