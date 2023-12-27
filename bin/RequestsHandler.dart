@@ -2,7 +2,7 @@ import "dart:core";
 import 'dart:ffi';
 import 'dart:math';
 
-import 'RequestsHandler.dart';
+import 'globals.dart';
 import "SipMessage.dart";
 import "SipClient.dart";
 import "Session.dart";
@@ -30,12 +30,11 @@ class ReqHandler {
   Map<String, SipClient> _clients = {};
   Map<String, Function(dynamic data)> handlers = {};
   void Function(sockaddr_in, dynamic)? _onHandled;
-
   String _serverIp;
   ReqHandler(String serverIp, int serverPort, RawDatagramSocket socket)
       : _serverIp = serverIp,
         _serverPort = serverPort,
-        this.socket = socket{
+        this.socket = socket {
     // SipMessageTypes.REGISTER,
     // SipMessageTypes.CANCEL,
     // SipMessageTypes.INVITE,
@@ -62,6 +61,11 @@ class ReqHandler {
     handlers[SipMessageTypes.ACK.toLowerCase()] = OnAck;
 
     _sessions = {};
+
+    // print("listening for events from ION SFU");
+    // webSocket!.listen((event) {
+    //   print("From SFU: $event");
+    // });
   }
 
   void handle(dynamic request) {
@@ -201,6 +205,11 @@ class ReqHandler {
     // Check if the called is registered
     //SipClient called = findClient(data.getToNumber());
     SipClient? called = _clients[data.getToNumber()];
+    String strMsg = data.toString();
+    SipMessage trying = SipMessage(strMsg, data.getSource());
+
+    trying.setHeader(SipMessageTypes.TRYING);
+    endHandle(trying.getFromNumber(), trying);
 
     // print("Callee is: ");
     // print("Callee is: ${called.getNumber()}");
@@ -209,20 +218,33 @@ class ReqHandler {
     if (called == null) {
       print("Callee is: ${data.getToNumber()} is not registered");
       //print(data.toString());
-      String strMsg = data.toString();
+      
       int sdpDelimitor = strMsg.indexOf(SipMessageHeaders.HEADERS_DELIMETER +
           SipMessageHeaders.HEADERS_DELIMETER);
       //print("Sdp delimiter: $sdpDelimitor");
-      String sdp = strMsg.substring(sdpDelimitor+1);
+      String sdp = strMsg.substring(sdpDelimitor + 4);
+      //print(sdp);
 
+      // var jsonRpcReq = {
+      //   "jsonrpc": "2.0",
+      //   "method": "request",
+      //   "params": {
+      //     "sid": "defaultroom",
+      //     "offer": {"type": "offer", "sdp": sdp}
+      //   }
+      // };
       var jsonRpcReq = {
         "jsonrpc": "2.0",
-        "method": "request",
+        "method": "join",
         "params": {
           "sid": "defaultroom",
           "offer": {"type": "offer", "sdp": sdp}
-        }
+          //"offer": sdp
+        },
+        "id": 1
       };
+      print("Sending offer to sfu");
+      webSocket!.add(jsonEncode(jsonRpcReq));
       // print(jsonRpcReq);
 
       //ion_sfu.add(jsonEncode(jsonRpcReq));

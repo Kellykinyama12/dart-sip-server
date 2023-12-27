@@ -2,6 +2,7 @@ import 'sipServer.dart';
 import 'dart:io';
 import 'wsSipServer.dart';
 import 'signal_jsonrpc_impl.dart' as ion;
+import 'globals.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -99,11 +100,7 @@ void main() async {
   //   print(event);
   // });
 
-  SipServer sipServer = SipServer("127.0.0.1", 5080);
-  wsSipServer wsSever = wsSipServer("127.0.0.1", 8088, "127.0.0.1", 5080);
-  // var ion_webscket = ion.SimpleWebSocket("wss://dev.zesco.co.zm:7881/ws");
-  // await ion_webscket.connect();
-
+  
   var offer = """v=0
 o=- 3163544789 1 IN IP4 127.0.0.1
 s=webrtc (chrome 22.0.1189.0) - Doubango Telecom (sipML5 r000)
@@ -187,18 +184,33 @@ a=ssrc:2432199953 label:HnAeVefwdG64baIr9EdbXNwEChe67aSRJFcW10
       "a=rtpmap:31 H261/90000\r\n"+
       "a=rtpmap:32 MPV/90000\r\n";
 
-  var url = "wss://dev.zesco.co.zm:7881/ws";
+    offer =  "v=0\r\n"+
+"o=Z 0 525320674 IN IP4 127.0.0.1\r\n"+
+"s=Z\r\n"+
+"c=IN IP4 127.0.0.1\r\n"+
+"t=0 0\r\n"+
+"m=audio 54141 RTP/AVP 106 9 98 101 0 8 3\r\n"+
+"a=rtpmap:106 opus/48000/2\r\n"+
+"a=fmtp:106 sprop-maxcapturerate=16000; minptime=20; useinbandfec=1\r\n"+
+"a=rtpmap:98 telephone-event/48000\r\n"+
+"a=fmtp:98 0-16\r\n"+
+"a=rtpmap:101 telephone-event/8000\r\n"+
+"a=fmtp:101 0-16\r\n"+
+"a=sendrecv\r\n"+
+"a=rtcp-mux\r\n";
 
-//"ws://127.0.0.1:7000";
-  var data = {
-    "jsonrpc": "2.0",
-    "method": "join",
-    "params": {
-      "sid": "defaultroom",
-      "offer": {"type": "offer", "sdp": offer}
-    },
-    "id": 1
-  };
+  var url = //"wss://dev.zesco.co.zm:7881/ws";
+
+"ws://127.0.0.1:7000/ws";
+  // var data = {
+  //   "jsonrpc": "2.0",
+  //   "method": "join",
+  //   "params": {
+  //     "sid": "defaultroom",
+  //     "offer": {"type": "offer", "sdp": offer}
+  //   },
+  //   "id": 1
+  // };
 
   //print("sending data");
 //try {
@@ -226,20 +238,26 @@ a=ssrc:2432199953 label:HnAeVefwdG64baIr9EdbXNwEChe67aSRJFcW10
   var response = await request.close();
   // ignore: close_sinks
   var socket = await response.detachSocket();
-  var webSocket = WebSocket.fromUpgradedSocket(
+  webSocket = WebSocket.fromUpgradedSocket(
     socket,
     protocol: 'signaling',
     serverSide: false,
   );
   print("listening for events from ION SFU");
-  webSocket.listen((event) {
+  webSocket!.listen((event) {
     print("From SFU: $event");
   });
 
   print("send data to SFU");
-  webSocket.add(jsonEncode(data));
+  //webSocket.add(jsonEncode(data));
   // } catch (e) {
   //log.error(e);
   //  rethrow;
   //  }
+
+  SipServer sipServer = SipServer("127.0.0.1", 5080);
+  wsSipServer wsSever = wsSipServer("127.0.0.1", 8088, "127.0.0.1", 5080);
+  // var ion_webscket = ion.SimpleWebSocket("wss://dev.zesco.co.zm:7881/ws");
+  // await ion_webscket.connect();
+
 }
