@@ -218,11 +218,11 @@ class ReqHandler {
     if (called == null) {
       print("Callee is: ${data.getToNumber()} is not registered");
       //print(data.toString());
-      
-      int sdpDelimitor = strMsg.indexOf(SipMessageHeaders.HEADERS_DELIMETER +
-          SipMessageHeaders.HEADERS_DELIMETER);
+
+      //int sdpDelimitor = strMsg.indexOf(SipMessageHeaders.HEADERS_DELIMETER +
+      // SipMessageHeaders.HEADERS_DELIMETER);
       //print("Sdp delimiter: $sdpDelimitor");
-      String sdp = strMsg.substring(sdpDelimitor + 4);
+      //String sdp = strMsg.substring(sdpDelimitor + 4);
       //print(sdp);
 
       // var jsonRpcReq = {
@@ -233,18 +233,18 @@ class ReqHandler {
       //     "offer": {"type": "offer", "sdp": sdp}
       //   }
       // };
-      var jsonRpcReq = {
-        "jsonrpc": "2.0",
-        "method": "join",
-        "params": {
-          "sid": "defaultroom",
-          "offer": {"type": "offer", "sdp": sdp}
-          //"offer": sdp
-        },
-        "id": 1
-      };
-      print("Sending offer to sfu");
-      webSocket!.add(jsonEncode(jsonRpcReq));
+      // var jsonRpcReq = {
+      //   "jsonrpc": "2.0",
+      //   "method": "join",
+      //   "params": {
+      //     "sid": "defaultroom",
+      //     "offer": {"type": "offer", "sdp": sdp}
+      //     //"offer": sdp
+      //   },
+      //   "id": 1
+      // };
+      // print("Sending offer to sfu");
+      // webSocket!.add(jsonEncode(jsonRpcReq));
       // print(jsonRpcReq);
 
       //ion_sfu.add(jsonEncode(jsonRpcReq));

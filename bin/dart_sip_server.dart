@@ -100,7 +100,6 @@ void main() async {
   //   print(event);
   // });
 
-  
   var offer = """v=0
 o=- 3163544789 1 IN IP4 127.0.0.1
 s=webrtc (chrome 22.0.1189.0) - Doubango Telecom (sipML5 r000)
@@ -171,37 +170,37 @@ a=ssrc:2432199953 label:HnAeVefwdG64baIr9EdbXNwEChe67aSRJFcW10
 
 """;
 
-  offer = "v=0\r\n"+
-      "o=alice 2890844526 2890844526 IN IP4 host.atlanta.example.com\r\n"+
-      "s=\r\n"+
-      "c=IN IP4 host.atlanta.example.com\r\n"+
-      "t=0 0\r\n"+
-      "m=audio 49170 RTP/AVP 0 8 97\r\n"+
-      "a=rtpmap:0 PCMU/8000\r\n"+
-      "a=rtpmap:8 PCMA/8000\r\n"+
-      "a=rtpmap:97 iLBC/8000\r\n"+
-      "m=video 51372 RTP/AVP 31 32\r\n"+
-      "a=rtpmap:31 H261/90000\r\n"+
+  offer = "v=0\r\n" +
+      "o=alice 2890844526 2890844526 IN IP4 host.atlanta.example.com\r\n" +
+      "s=\r\n" +
+      "c=IN IP4 host.atlanta.example.com\r\n" +
+      "t=0 0\r\n" +
+      "m=audio 49170 RTP/AVP 0 8 97\r\n" +
+      "a=rtpmap:0 PCMU/8000\r\n" +
+      "a=rtpmap:8 PCMA/8000\r\n" +
+      "a=rtpmap:97 iLBC/8000\r\n" +
+      "m=video 51372 RTP/AVP 31 32\r\n" +
+      "a=rtpmap:31 H261/90000\r\n" +
       "a=rtpmap:32 MPV/90000\r\n";
 
-    offer =  "v=0\r\n"+
-"o=Z 0 525320674 IN IP4 127.0.0.1\r\n"+
-"s=Z\r\n"+
-"c=IN IP4 127.0.0.1\r\n"+
-"t=0 0\r\n"+
-"m=audio 54141 RTP/AVP 106 9 98 101 0 8 3\r\n"+
-"a=rtpmap:106 opus/48000/2\r\n"+
-"a=fmtp:106 sprop-maxcapturerate=16000; minptime=20; useinbandfec=1\r\n"+
-"a=rtpmap:98 telephone-event/48000\r\n"+
-"a=fmtp:98 0-16\r\n"+
-"a=rtpmap:101 telephone-event/8000\r\n"+
-"a=fmtp:101 0-16\r\n"+
-"a=sendrecv\r\n"+
-"a=rtcp-mux\r\n";
+  offer = "v=0\r\n" +
+      "o=Z 0 525320674 IN IP4 127.0.0.1\r\n" +
+      "s=Z\r\n" +
+      "c=IN IP4 127.0.0.1\r\n" +
+      "t=0 0\r\n" +
+      "m=audio 54141 RTP/AVP 106 9 98 101 0 8 3\r\n" +
+      "a=rtpmap:106 opus/48000/2\r\n" +
+      "a=fmtp:106 sprop-maxcapturerate=16000; minptime=20; useinbandfec=1\r\n" +
+      "a=rtpmap:98 telephone-event/48000\r\n" +
+      "a=fmtp:98 0-16\r\n" +
+      "a=rtpmap:101 telephone-event/8000\r\n" +
+      "a=fmtp:101 0-16\r\n" +
+      "a=sendrecv\r\n" +
+      "a=rtcp-mux\r\n";
 
-  var url = //"wss://dev.zesco.co.zm:7881/ws";
+  //var url = //"wss://dev.zesco.co.zm:7881/ws";
 
-"ws://127.0.0.1:7000/ws";
+  "ws://127.0.0.1:7000/ws";
   // var data = {
   //   "jsonrpc": "2.0",
   //   "method": "join",
@@ -214,50 +213,49 @@ a=ssrc:2432199953 label:HnAeVefwdG64baIr9EdbXNwEChe67aSRJFcW10
 
   //print("sending data");
 //try {
-  var r = Random();
-  var key = base64.encode(List<int>.generate(8, (_) => r.nextInt(255)));
-  var client = HttpClient(context: SecurityContext());
-  client.badCertificateCallback =
-      (X509Certificate cert, String host, int port) {
-    // log.debug(
-    //     'SimpleWebSocket: Allow self-signed certificate => $host:$port. ');
-    return true;
-  };
+  // var r = Random();
+  // var key = base64.encode(List<int>.generate(8, (_) => r.nextInt(255)));
+  // var client = HttpClient(context: SecurityContext());
+  // client.badCertificateCallback =
+  //     (X509Certificate cert, String host, int port) {
+  //   // log.debug(
+  //   //     'SimpleWebSocket: Allow self-signed certificate => $host:$port. ');
+  //   return true;
+  // };
 
-  var parsed_uri = Uri.parse(url);
-  var uri =
-      parsed_uri.replace(scheme: parsed_uri.scheme == 'wss' ? 'https' : 'http');
+  // var parsed_uri = Uri.parse(url);
+  // var uri =
+  //     parsed_uri.replace(scheme: parsed_uri.scheme == 'wss' ? 'https' : 'http');
 
-  var request = await client.getUrl(uri); // form the correct url here
-  request.headers.add('Connection', 'Upgrade');
-  request.headers.add('Upgrade', 'websocket');
-  request.headers
-      .add('Sec-WebSocket-Version', '13'); // insert the correct version here
-  request.headers.add('Sec-WebSocket-Key', key.toLowerCase());
+  // var request = await client.getUrl(uri); // form the correct url here
+  // request.headers.add('Connection', 'Upgrade');
+  // request.headers.add('Upgrade', 'websocket');
+  // request.headers
+  //     .add('Sec-WebSocket-Version', '13'); // insert the correct version here
+  // request.headers.add('Sec-WebSocket-Key', key.toLowerCase());
 
-  var response = await request.close();
-  // ignore: close_sinks
-  var socket = await response.detachSocket();
-  webSocket = WebSocket.fromUpgradedSocket(
-    socket,
-    protocol: 'signaling',
-    serverSide: false,
-  );
-  print("listening for events from ION SFU");
-  webSocket!.listen((event) {
-    print("From SFU: $event");
-  });
+  // var response = await request.close();
+  // // ignore: close_sinks
+  // var socket = await response.detachSocket();
+  // webSocket = WebSocket.fromUpgradedSocket(
+  //   socket,
+  //   protocol: 'signaling',
+  //   serverSide: false,
+  // );
+  // print("listening for events from ION SFU");
+  // webSocket!.listen((event) {
+  //   print("From SFU: $event");
+  // });
 
-  print("send data to SFU");
+  // print("send data to SFU");
   //webSocket.add(jsonEncode(data));
   // } catch (e) {
   //log.error(e);
   //  rethrow;
   //  }
 
-  SipServer sipServer = SipServer("127.0.0.1", 5080);
-  wsSipServer wsSever = wsSipServer("127.0.0.1", 8088, "127.0.0.1", 5080);
+  SipServer sipServer = SipServer("127.0.0.1", 5060);
+  wsSipServer wsSever = wsSipServer("127.0.0.1", 8088, "127.0.0.1", 5060);
   // var ion_webscket = ion.SimpleWebSocket("wss://dev.zesco.co.zm:7881/ws");
   // await ion_webscket.connect();
-
 }
