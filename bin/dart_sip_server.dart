@@ -254,8 +254,8 @@ a=ssrc:2432199953 label:HnAeVefwdG64baIr9EdbXNwEChe67aSRJFcW10
   //  rethrow;
   //  }
 
-  SipServer sipServer = SipServer("127.0.0.1", 5060);
-  wsSipServer wsSever = wsSipServer("127.0.0.1", 8088, "127.0.0.1", 5060);
+  SipServer sipServer = SipServer("10.43.0.55", 5060);
+  wsSipServer wsSever = wsSipServer("10.43.0.55", 8088, "10.43.0.55", 5060);
   // var ion_webscket = ion.SimpleWebSocket("wss://dev.zesco.co.zm:7881/ws");
   // await ion_webscket.connect();
 }
